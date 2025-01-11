@@ -6,13 +6,13 @@ type TPillBtnProps = {
   children: React.ReactNode;
   classNames?: string;
   id?: string;
-  width?: number;
-  height?: number;
+  width?: number | string;
+  height?: number | string;
   onClick?: () => void;
 };
 
 const PillBtn: React.FC<TPillBtnProps> = forwardRef<HTMLDivElement, TPillBtnProps>(
-  ({ children, onClick = () => {}, classNames = '', width = 60, height = 20, id }, ref) => {
+  ({ children, onClick = () => {}, classNames = '', width = 30, height = 20, id }, ref) => {
     return (
       <div
         ref={ref}

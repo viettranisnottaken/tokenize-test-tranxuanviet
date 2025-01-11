@@ -1,0 +1,41 @@
+@use 'sass:color';
+@use '../../../assets/styles/index.scss' as *;
+
+.resolution-panel {
+  position: absolute;
+  top: 42px;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+  gap: 1rem;
+  background-color: color.adjust($color: $primary-bg-color, $lightness: 10%);
+  max-width: 356px;
+  height: fit-content;
+  padding: 0.75rem;
+  z-index: 99;
+  transition: opacity .2s ease, display .2s ease allow-discrete;
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .section-content {
+    width: 100%;
+    gap: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .pill-btn-wrapper {
+    position: relative;
+
+    .icon {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+    }
+  }
+}

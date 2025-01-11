@@ -1,0 +1,44 @@
+@use 'sass:color';
+@use '../../../assets/styles/index.scss' as *;
+
+.resolution-section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+  gap: 0.75rem;
+  background-color: transparent;
+  width: fit-content;
+  height: fit-content;
+  padding: 0.75rem;
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .section-content {
+    width: 100%;
+    gap: 0.75rem;
+    display: flex;
+  }
+
+  .pinned-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    height: 30px;
+    overflow: hidden;
+  }
+
+  .pill-btn-wrapper {
+    position: relative;
+
+    .icon {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+    }
+  }
+}

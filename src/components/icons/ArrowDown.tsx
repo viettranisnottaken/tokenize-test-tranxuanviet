@@ -1,14 +1,14 @@
 import React from 'react';
 
 type TArrowDownProps = {
-  width: string;
-  height: string;
-  color: string;
+  width?: string;
+  height?: string;
+  color?: string;
 };
 
 const ArrowDown: React.FC<TArrowDownProps> = ({
-  width = '16px',
-  height = '16px',
+  width = '18px',
+  height = '18px',
   color = '#d1d4dc',
 }) => {
   return (
@@ -22,9 +22,9 @@ const ArrowDown: React.FC<TArrowDownProps> = ({
       <path
         d="M7 10L12 15L17 10"
         stroke={color}
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
