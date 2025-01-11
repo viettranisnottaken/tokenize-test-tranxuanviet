@@ -1,20 +1,17 @@
 @use 'sass:color';
 @use '../../../assets/styles/index.scss' as *;
 
-.resolution-panel {
-  position: absolute;
-  top: 42px;
-  right: 12px;
+.resolution-panel-host {
   display: flex;
   flex-direction: column;
   border-radius: 4px;
   gap: 1rem;
   background-color: color.adjust($color: $primary-bg-color, $lightness: 10%);
-  max-width: 356px;
+  width: 356px;
   height: fit-content;
   padding: 0.75rem;
   z-index: 99;
-  transition: opacity .2s ease, display .2s ease allow-discrete;
+  // transition: opacity .2s ease, display .2s ease allow-discrete;
 
   .section-label {
     display: flex;

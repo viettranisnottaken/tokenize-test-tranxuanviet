@@ -113,6 +113,7 @@ const ResolutionSection: React.FC<TResolutionSectionProps> = React.memo(
   ({ selectedResolution: selectedResolutionProps, onResolutionChange }) => {
     const extraDisplayedContainerRef = useRef<HTMLDivElement>(null);
     const extraDisplayedPillRef = useRef<HTMLDivElement>(null);
+    const resolutionSectionRef = useRef<HTMLDivElement>(null);
     const pinnedListRef = useRef<HTMLDivElement>(null);
     const [isPillHiddenInScroll, setIsPillHiddenInScroll] = useState(false);
     const panelRef = useRef<HTMLDivElement>(null);
@@ -196,13 +197,41 @@ const ResolutionSection: React.FC<TResolutionSectionProps> = React.memo(
 
     useEffect(() => {
       const mouseoverHandler = () => {
-        panelRef.current?.classList.add('d-flex');
-        panelRef.current?.classList.remove('d-none');
+        if (
+          !panelRef.current ||
+          panelRef.current.classList.contains('d-left') ||
+          panelRef.current.classList.contains('d-right') ||
+          !extraDisplayedContainerRef.current ||
+          !resolutionSectionRef.current
+        ) {
+          return;
+        }
+
+        const { width: bodyWidth } = document
+          .getElementsByTagName('body')[0]
+          .getBoundingClientRect();
+        const panelWidth = 356;
+        const { width: sectionWidth } = resolutionSectionRef.current.getBoundingClientRect();
+        const isPanelWholyVisible = sectionWidth + panelWidth < bodyWidth;
+        const className = isPanelWholyVisible ? 'd-right' : 'd-left';
+
+        panelRef.current?.classList.remove('d-left');
+        panelRef.current?.classList.remove('d-right');
+        panelRef.current?.classList.add(className);
       };
 
       const mouseLeaveHandler = () => {
-        panelRef.current?.classList.add('d-none');
-        panelRef.current?.classList.remove('d-flex');
+        if (
+          !panelRef.current ||
+          !extraDisplayedContainerRef.current ||
+          (!panelRef.current?.classList.contains('d-left') &&
+            !panelRef.current?.classList.contains('d-right'))
+        ) {
+          return;
+        }
+
+        panelRef.current?.classList.remove('d-left');
+        panelRef.current?.classList.remove('d-right');
       };
 
       if (panelRef.current && extraDisplayedContainerRef.current) {
@@ -214,7 +243,7 @@ const ResolutionSection: React.FC<TResolutionSectionProps> = React.memo(
 
       return () => {
         console.log('clean up event listeners');
-        
+
         if (panelRef.current && extraDisplayedContainerRef.current) {
           extraDisplayedContainerRef.current.removeEventListener('mouseover', mouseoverHandler);
           panelRef.current.removeEventListener('mouseover', mouseoverHandler);
@@ -239,11 +268,9 @@ const ResolutionSection: React.FC<TResolutionSectionProps> = React.memo(
             const elemLeft = element?.getBoundingClientRect().left;
             const elemRight = element?.getBoundingClientRect().right;
             const elemTop = element?.getBoundingClientRect().top;
-            
+
             setIsPillHiddenInScroll(
-              elemLeft >= containerRight ||
-                elemRight <= containerLeft ||
-                elemTop > containerBottom
+              elemLeft >= containerRight || elemRight <= containerLeft || elemTop > containerBottom
             );
           }
         }, 200)
@@ -253,13 +280,13 @@ const ResolutionSection: React.FC<TResolutionSectionProps> = React.memo(
 
       return () => {
         console.log('disconnect resize observer');
-        
+
         resizeObserver.disconnect();
       };
     }, [pinnedListRef.current, extraDisplayedPillRef.current, selectedResolution]);
 
     return (
-      <div className="resolution-section">
+      <div ref={resolutionSectionRef} className="resolution-section">
         <div className="section-content">
           <div ref={pinnedListRef} className="pinned-list">
             {pinnedResolutionsAsArray.map((resolution) => (
@@ -282,20 +309,22 @@ const ResolutionSection: React.FC<TResolutionSectionProps> = React.memo(
             >
               {selectedResolutionObj?.label}
             </PillBtn>
-            <PillBtn classNames='p-0' width={30} height={30}><ArrowDown /></PillBtn>
+            <PillBtn classNames="p-0" width={30} height={30}>
+              <ArrowDown />
+            </PillBtn>
           </div>
-        </div>
 
-        <ResolutionPanel
-          ref={panelRef}
-          classNames="d-none"
-          pinnedResolutions={pinnedResolutionsAsArray}
-          availableResolutions={availableResolutionsAsArray}
-          selectedResolution={selectedResolution}
-          onResolutionChange={handleResolutionChange}
-          onMoveToAvailable={moveToAvailable}
-          onMoveToPinned={moveToPinned}
-        />
+          <ResolutionPanel
+            ref={panelRef}
+            classNames="resolution-panel"
+            pinnedResolutions={pinnedResolutionsAsArray}
+            availableResolutions={availableResolutionsAsArray}
+            selectedResolution={selectedResolution}
+            onResolutionChange={handleResolutionChange}
+            onMoveToAvailable={moveToAvailable}
+            onMoveToPinned={moveToPinned}
+          />
+        </div>
       </div>
     );
   }

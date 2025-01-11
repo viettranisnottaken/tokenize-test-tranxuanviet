@@ -41,7 +41,7 @@ const ResolutionPanel: React.FC<TResolutionPanelProps> = React.memo(
       };
 
       return (
-        <div ref={ref} className={'resolution-panel ' + (classNames ?? '')}>
+        <div ref={ref} className={'resolution-panel-host ' + (classNames ?? '')}>
           <div className="section-label">
             <span>Pinned</span>
             <PillBtn onClick={() => setIsEditing((prev) => !prev)}>
