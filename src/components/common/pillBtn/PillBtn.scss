@@ -1,0 +1,16 @@
+@use 'sass:color';
+@use '../../../assets/styles/variables.scss' as *;
+
+.pill-btn {
+  padding: 5px 10px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: color.adjust($color: $primary-bg-color, $lightness: 20%);
+
+  &.selected {
+    background-color: color.adjust($color: $primary-bg-color, $lightness: 35%);
+  }
+}
